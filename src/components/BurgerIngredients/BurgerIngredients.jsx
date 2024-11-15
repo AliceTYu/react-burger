@@ -8,7 +8,7 @@ const BurgerIngredients = () => {
 
   return (
     <section className={`${styles.tab} mr-10`}>
-      <div className={`${styles.tabBlock} pb-10`} style={{ display: 'flex' }}>
+      <div className={`${styles.tabBlock} pb-10`}>
         <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
           Булки
         </Tab>
