@@ -1,0 +1,14 @@
+.itemsList{
+    display: flex;
+    flex-direction: column;
+}
+
+.item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.item:last-child{
+    padding-bottom: 0;
+}
