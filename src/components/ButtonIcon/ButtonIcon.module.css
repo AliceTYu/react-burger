@@ -1,0 +1,14 @@
+.btn{
+    border-radius: 40px;
+    background: var(--interface-modal-bg);
+    color: var(--text-primary-light-standart-text);
+    border: none;
+
+    outline: none;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    cursor: pointer;
+}

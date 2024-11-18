@@ -1,0 +1,25 @@
+.tab{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.tabBlock{
+    width: 100%;
+    display: flex;
+}
+
+.container{
+    height: 100%;
+    
+    position: relative;
+}
+
+.ingredientsBlock{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: auto;
+}
