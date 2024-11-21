@@ -3,7 +3,7 @@ import styles from './ButtonIcon.module.css';
 import PropTypes from 'prop-types';
 
 ButtonIcon.propTypes = {
-  children: PropTypes.element,
+  children: PropTypes.node,
   text: PropTypes.string
 };
 

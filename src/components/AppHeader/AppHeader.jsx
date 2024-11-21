@@ -1,10 +1,10 @@
 import ButtonIcon from '../ButtonIcon/ButtonIcon';
 import styles from './AppHeader.module.css';
-import { Box, BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 function AppHeader() {
   return (
-    <header className={`${styles.header} p-4`}>
+    <header className={`${styles.header} pt-4 pb-4`}>
       <div className={styles.container}>
         <div className={styles.headerMenu}>
           <ButtonIcon text={'Конструктор'}>
