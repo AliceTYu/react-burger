@@ -13,7 +13,7 @@ function App() {
   const [dataBase, setDataBase] = useState([])
   const [visibleModal, setVisibleModal] = useState(false)
   const [viewModal, setViewModal] = useState('order')
-  const [idIngredient, setIdIngredient] = useState(null)
+  const [choiceIngredient, setChoiceIngredient] = useState([])
 
   useEffect(() => {
     getIngedients()
@@ -22,7 +22,7 @@ function App() {
   const getIngedients = async () => {
     try {
       const response = await fetch(`${URL_BASE}ingredients`)
-      if (!response.ok){
+      if (!response.ok) {
         throw new Error('Ошибка запроса!')
       }
       const data = await response.json()
@@ -34,13 +34,13 @@ function App() {
 
   const modalClose = () => {
     setVisibleModal(false)
-    setIdIngredient(null)
+    setChoiceIngredient(null)
   }
 
   const modalOpen = (type) => {
-    if (type === 'order'){
+    if (type === 'order') {
       setViewModal('order')
-    } else if (type === 'ingred'){
+    } else if (type === 'ingred') {
       setViewModal('ingred')
     }
     setVisibleModal(true)
@@ -48,25 +48,27 @@ function App() {
 
   const modal = (
     <>
-      {viewModal === 'order' && (<Modal onClose={modalClose}>
-      <OrderDetails></OrderDetails>
-    </Modal>)}
-      {viewModal === 'ingred' && (<Modal header='Детали ингредиента' onClose={modalClose}>
-        <IngredientDetails idIngredient={idIngredient} dataBase={dataBase}/>
-      </Modal>)}
+      {viewModal === 'order' && (
+        <Modal onClose={modalClose}>
+          <OrderDetails />
+        </Modal>)}
+      {viewModal === 'ingred' && (
+        <Modal header='Детали ингредиента' onClose={modalClose}>
+          <IngredientDetails choiceIngredient={choiceIngredient} dataBase={dataBase} />
+        </Modal>)}
     </>
   );
 
   return (
     <>
       <div className={styles.app}>
-        <AppHeader/>
+        <AppHeader />
 
         <main className={styles.appMain}>
           <h1 className={`text text_type_main-large mt-10 mb-5`}>Соберите бургер</h1>
           <div className={styles.appBlock}>
-            <BurgerIngredients setIdIngredient={setIdIngredient} onClick={() => modalOpen('ingred')} dataBase={dataBase}/>
-            <BurgerConstructor onClick={() => modalOpen('order')} dataBase={dataBase}/>
+            <BurgerIngredients setChoiceIngredient={setChoiceIngredient} onClick={() => modalOpen('ingred')} dataBase={dataBase} />
+            <BurgerConstructor onClick={() => modalOpen('order')} dataBase={dataBase} />
           </div>
         </main>
       </div>

@@ -2,36 +2,24 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerIngredients.module.css';
 import { useRef, useState } from 'react';
 import ListBlock from '../ListBlock/ListBlock';
+import { IngredientType } from '../../utils/types';
 import PropTypes from 'prop-types';
 
 BurgerIngredients.propTypes = {
-  dataBase: PropTypes.arrayOf(PropTypes.shape ({
-    id: PropTypes.string,
-    type: PropTypes.string,
-    name: PropTypes.string,
-    image_mobile: PropTypes.string,
-    image_large: PropTypes.string,
-    image: PropTypes.string,
-    proteins: PropTypes.number,
-    price: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
-    __v: PropTypes.number,
-  }))
-  }
+  dataBase: PropTypes.arrayOf(PropTypes.shape(IngredientType))
+}
 
-function BurgerIngredients({dataBase, onClick, setIdIngredient}) {
+function BurgerIngredients({ dataBase, onClick, setChoiceIngredient }) {
   const [current, setCurrent] = useState('bun')
 
   const bunRef = useRef()
   const sauceRef = useRef()
   const mainRef = useRef()
 
-  const classNameText='text text_type_main-medium'
+  const classNameText = 'text text_type_main-medium'
 
-  function currentScroll (nameRef) {
-    return nameRef.current.scrollIntoView({behavior: 'smooth'});
+  function currentScroll(nameRef) {
+    return nameRef.current.scrollIntoView({ behavior: 'smooth' });
   }
 
   const scrollToMyRef = (value) => {
@@ -49,8 +37,7 @@ function BurgerIngredients({dataBase, onClick, setIdIngredient}) {
         break
     }
     setCurrent(value)
-  } 
-
+  }
 
   return (
     <section className={`${styles.tab} mr-10`}>
@@ -69,11 +56,11 @@ function BurgerIngredients({dataBase, onClick, setIdIngredient}) {
       <div className={styles.container}>
         <div className={styles.ingredientsBlock}>
           <h2 ref={bunRef} className={classNameText}>Булки</h2>
-          <ListBlock setIdIngredient={setIdIngredient} onClick={onClick} dataBase={dataBase} type='bun' />
+          <ListBlock setChoiceIngredient={setChoiceIngredient} onClick={onClick} dataBase={dataBase} type='bun' />
           <h2 ref={sauceRef} className={classNameText}>Соусы</h2>
-          <ListBlock setIdIngredient={setIdIngredient} onClick={onClick} dataBase={dataBase} type='sauce'/>
+          <ListBlock setChoiceIngredient={setChoiceIngredient} onClick={onClick} dataBase={dataBase} type='sauce' />
           <h2 ref={mainRef} className={classNameText}>Начинки</h2>
-          <ListBlock setIdIngredient={setIdIngredient} onClick={onClick} dataBase={dataBase} type='main'/>
+          <ListBlock setChoiceIngredient={setChoiceIngredient} onClick={onClick} dataBase={dataBase} type='main' />
         </div>
       </div>
     </section>

@@ -4,10 +4,10 @@ ModalHeader.propTypes = {
   children: PropTypes.node
 }
 
-function ModalHeader({children}) {
+function ModalHeader({ children }) {
   return (
     <div className='text text_type_main-large'>
-        {children}
+      {children}
     </div>
   )
 }

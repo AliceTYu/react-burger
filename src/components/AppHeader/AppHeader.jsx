@@ -8,20 +8,20 @@ function AppHeader() {
       <div className={styles.container}>
         <div className={styles.headerMenu}>
           <ButtonIcon text={'Конструктор'}>
-            <BurgerIcon type="primary"/>
+            <BurgerIcon type="primary" />
           </ButtonIcon>
           <ButtonIcon text={'Лента заказов'}>
-            <ListIcon type="primary"/>
+            <ListIcon type="primary" />
           </ButtonIcon>
         </div>
-  
+
         <div className={styles.headerLogo}>
           <Logo />
         </div>
-  
+
         <div className={styles.headerProf}>
-        <ButtonIcon text={'Личный кабинет'}>
-            <ProfileIcon type="primary"/>
+          <ButtonIcon text={'Личный кабинет'}>
+            <ProfileIcon type="primary" />
           </ButtonIcon>
         </div>
       </div>

@@ -7,7 +7,7 @@ function OrderDetails() {
       <div className='text text_type_digits-large pb-8'>034536</div>
       <div className='text text_type_main-medium pb-8'>идентификатор заказа</div>
       <div className='pb-15'>
-        <img src={imageDone} alt="" />
+        <img src={imageDone} alt="Иконка успешно выполненного заказа" />
       </div>
       <div className='text text_type_main-medium pb-2'>Ваш заказ начали готовить</div>
       <div className='text text_type_main-default text_color_inactive'>Дождитесь готовности на орбитальной станции</div>

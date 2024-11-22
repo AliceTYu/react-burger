@@ -13,22 +13,21 @@ Modal.propTypes = {
 };
 
 function Modal({ children, header, onClose }) {
-    
+
     useEffect(() => {
-        const escClick = (e) => {
-            if (e.key === 'Escape'){
+        const handleEscape = (e) => {
+            if (e.key === 'Escape') {
                 onClose()
             }
         }
-        
-        document.addEventListener('keydown', escClick)
+        document.addEventListener('keydown', handleEscape)
 
-        return () => document.removeEventListener('keydown', escClick)
-      }, [])
+        return () => document.removeEventListener('keydown', handleEscape)
+    }, [])
 
-    return createPortal (
+    return createPortal(
         (<ModalOverlay onClick={onClose}>
-            <div className={`${styles.modal} pt-10 pr-10 pl-10 pb-15`}>
+            <div onClick={e => e.stopPropagation()} className={`${styles.modal} pt-10 pr-10 pl-10 pb-15`}>
                 <div className={styles.modalTitle}>
                     <ModalHeader>{header}</ModalHeader>
                     <ModalBackDrop onClose={onClose} />
@@ -36,7 +35,7 @@ function Modal({ children, header, onClose }) {
                 {children}
             </div>
         </ModalOverlay>)
-  , modalRoot)
+        , modalRoot)
 }
 
 export default Modal;
