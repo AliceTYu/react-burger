@@ -8,11 +8,11 @@ PriceBlock.propTypes = {
   fsize: PropTypes.number
 };
 
-function PriceBlock({price, fsize}) {
+function PriceBlock({ price, fsize }) {
   return (
     <div className={`${styles.priceBlock} pt-1 pb-1`}>
-        <div className={`text ${fsize === 1 ? 'text_type_digits-default' : 'text_type_digits-medium'} `}>{price}</div>
-        <div><CurrencyIcon type="primary" /></div>
+      <div className={`text ${fsize === 1 ? 'text_type_digits-default' : 'text_type_digits-medium'} `}>{price}</div>
+      <div><CurrencyIcon type="primary" /></div>
     </div>
   )
 }
