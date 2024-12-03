@@ -1,24 +1,27 @@
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerTopButtom.module.css';
 import PropTypes from 'prop-types';
-import { IngredientType } from '../../utils/types';
+import PatternBurger from '../PatternBurger/PatternBurger';
+import { useSelector } from 'react-redux';
 
 BurgerTopButtom.propTypes = {
-  dataBase: PropTypes.shape(IngredientType),
   type: PropTypes.oneOf(['bottom', 'top']),
   type_rus: PropTypes.string
 };
 
-function BurgerTopButtom({ type, type_rus, dataBase }) {
+function BurgerTopButtom({ type, type_rus }) {
+  const choiceBun = useSelector(state => state.currentIngredients.bun);
+
   return (
     <div className={`${styles.item} ml-10 mb-2`}>
-      <ConstructorElement
+      {!choiceBun && <PatternBurger type={type}>Выберите булки</PatternBurger>}
+      {choiceBun && <ConstructorElement
         type={type}
         isLocked={true}
-        text={`${dataBase.name} (${type_rus})`}
-        price={dataBase.price}
-        thumbnail={dataBase.image}
-      />
+        text={`${choiceBun.name} (${type_rus})`}
+        price={choiceBun.price}
+        thumbnail={choiceBun.image}
+      />}
     </div>
   )
 }
