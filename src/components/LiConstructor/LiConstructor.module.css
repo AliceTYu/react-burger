@@ -1,0 +1,11 @@
+.item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    margin-left: -18px;
+}
+
+.item:last-child{
+    padding-bottom: 0;
+}
