@@ -1,14 +1,7 @@
 .itemsList{
     display: flex;
     flex-direction: column;
-}
 
-.item{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.item:last-child{
-    padding-bottom: 0;
+    max-height: 30rem;
+    margin-left: 36px;
 }
