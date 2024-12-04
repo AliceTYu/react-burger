@@ -5,7 +5,7 @@ import ListConstructor from '../ListConstructor/ListConstructor';
 import BurgerTopButtom from '../BurgerTopButtom/BurgerTopButtom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { ADD_BUN, ADD_INGREDIENTS } from '../../services/actions/currentIngredients';
+import { addBun, addIngredients } from '../../services/actions/currentIngredients';
 import { v4 as uuidv4 } from 'uuid';
 import { useMemo } from 'react';
 import { arrayForRequest } from '../../utils/arrayForRequest';
@@ -20,21 +20,21 @@ function BurgerConstructor({ onClick }) {
   const [, dropTarget] = useDrop({
     accept: 'sauseMain',
     drop(itemId) {
-      dispatch({ type: ADD_INGREDIENTS, payload: { id: uuidv4(), newIngredient: itemId } })
+      dispatch(addIngredients(uuidv4(), itemId))
     },
   });
 
   const [, dropTarget2] = useDrop({
     accept: 'bun',
     drop(itemId) {
-      dispatch({ type: ADD_BUN, payload: { bun: itemId } })
+      dispatch(addBun(itemId))
     },
   });
 
   const [, dropTarget3] = useDrop({
     accept: 'bun',
     drop(itemId) {
-      dispatch({ type: ADD_BUN, payload: { bun: itemId } })
+      dispatch(addBun(itemId))
     },
   });
 

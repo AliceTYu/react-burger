@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 import { IngredientType } from '../../utils/types';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_CURRENT_INGREDIENT } from '../../services/actions/currentIngredient';
+import { setCurrentIngredients } from '../../services/actions/currentIngredient';
 import { useDrag } from 'react-dnd';
 import { useMemo } from 'react';
 
@@ -20,7 +20,7 @@ function CardBlock({ type, elDataBase, onClick }) {
   const choiceBun = useSelector(state => state.currentIngredients.bun);
 
   const clickHun = () => {
-    dispatch({ type: SET_CURRENT_INGREDIENT, payload: { currentIngredient: elDataBase } })
+    dispatch(setCurrentIngredients(elDataBase))
   }
 
   const [, dragRef] = useDrag({

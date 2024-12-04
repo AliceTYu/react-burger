@@ -6,11 +6,11 @@ import { useState } from 'react';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import OrderDetails from '../OrderDetails/OrderDetails';
-import { DEL_CURRENT_INGREDIENT } from '../../services/actions/currentIngredient';
 import { useDispatch } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DEL_NUMBER } from '../../services/actions/order';
+import { delCurrentIngredients } from '../../services/actions/currentIngredient';
 
 function App() {
   const [visibleModal, setVisibleModal] = useState(false)
@@ -20,10 +20,9 @@ function App() {
 
   const modalClose = () => {
     setVisibleModal(false)
-    dispatch({ type: DEL_CURRENT_INGREDIENT })
+    dispatch(delCurrentIngredients())
     dispatch({ type: DEL_NUMBER })
   }
-
   const modalOpen = (type) => {
     if (type === 'order') {
       setViewModal('order')

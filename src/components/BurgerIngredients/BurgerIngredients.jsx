@@ -2,9 +2,11 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './BurgerIngredients.module.css';
 import { useEffect, useRef, useState } from 'react';
 import ListBlock from '../ListBlock/ListBlock';
+import { useSelector } from 'react-redux';
 
 function BurgerIngredients({ onClick }) {
   const [current, setCurrent] = useState('bun')
+  const errorSet = useSelector(state => state.allIngredientsReducer.errorSet)
 
   const bunRef = useRef()
   const sauceRef = useRef()
@@ -59,28 +61,32 @@ function BurgerIngredients({ onClick }) {
 
   return (
     <section className={`${styles.tab} mr-10`}>
-      <div className={`${styles.tabBlock} pb-10`}>
-        <Tab value="bun" active={current === 'bun'} onClick={() => scrollToMyRef('bun')}>
-          Булки
-        </Tab>
-        <Tab value="sauce" active={current === 'sauce'} onClick={() => scrollToMyRef('sauce')}>
-          Соусы
-        </Tab>
-        <Tab value="main" active={current === 'main'} onClick={() => scrollToMyRef('main')}>
-          Начинки
-        </Tab>
-      </div>
+      {!errorSet &&
+        <>
+          <div className={`${styles.tabBlock} pb-10`}>
+            <Tab value="bun" active={current === 'bun'} onClick={() => scrollToMyRef('bun')}>
+              Булки
+            </Tab>
+            <Tab value="sauce" active={current === 'sauce'} onClick={() => scrollToMyRef('sauce')}>
+              Соусы
+            </Tab>
+            <Tab value="main" active={current === 'main'} onClick={() => scrollToMyRef('main')}>
+              Начинки
+            </Tab>
+          </div>
 
-      <div className={styles.container}>
-        <div ref={burgerIngredientsRef} className={styles.ingredientsBlock}>
-          <h2 ref={bunRef} className={classNameText}>Булки</h2>
-          <ListBlock onClick={onClick} type='bun' />
-          <h2 ref={sauceRef} className={classNameText}>Соусы</h2>
-          <ListBlock onClick={onClick} type='sauce' />
-          <h2 ref={mainRef} className={classNameText}>Начинки</h2>
-          <ListBlock onClick={onClick} type='main' />
-        </div>
-      </div>
+          <div className={styles.container}>
+            <div ref={burgerIngredientsRef} className={styles.ingredientsBlock}>
+              <h2 ref={bunRef} className={classNameText}>Булки</h2>
+              <ListBlock onClick={onClick} type='bun' />
+              <h2 ref={sauceRef} className={classNameText}>Соусы</h2>
+              <ListBlock onClick={onClick} type='sauce' />
+              <h2 ref={mainRef} className={classNameText}>Начинки</h2>
+              <ListBlock onClick={onClick} type='main' />
+            </div>
+          </div>
+        </>}
+      {errorSet && 'Ошибка получения данных'}
     </section>
   )
 }

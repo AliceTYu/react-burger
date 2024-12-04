@@ -20,7 +20,7 @@ function ListBlock({ type, onClick }) {
 
   return (
     <ul className={`${styles.itemsList} mt-4 mr-1 mb-10 ml-4`}>
-      {allIngredients.map(el => {
+      {allIngredients && allIngredients.map(el => {
         return (
           el.type === type &&
           <li key={el._id} className={`${styles.item} pl-4 pr-4 pb-6`}>

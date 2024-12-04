@@ -1,7 +1,7 @@
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './LiConstructor.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { DEL_INGREDIENTS, UPDATE_SORT } from '../../services/actions/currentIngredients';
+import { delIngredients, updateSortIngredients } from '../../services/actions/currentIngredients';
 import { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useDrag, useDrop } from 'react-dnd';
@@ -19,7 +19,7 @@ function LiConstructor({ currentEl, index }) {
     const ref = useRef(null);
 
     function deleteIng(id) {
-        dispatch({ type: DEL_INGREDIENTS, payload: { deleteId: id } })
+        dispatch(delIngredients(id))
     }
 
     const [, dragEl] = useDrag({
@@ -49,7 +49,7 @@ function LiConstructor({ currentEl, index }) {
         const updatedCards = [...choiceIngredients];
         const [removed] = updatedCards.splice(dragIndex, 1);
         updatedCards.splice(hoverIndex, 0, removed);
-        dispatch({ type: UPDATE_SORT, payload: { ingredients: updatedCards } })
+        dispatch(updateSortIngredients(updatedCards))
     };
 
     dragEl(dropEl(ref))

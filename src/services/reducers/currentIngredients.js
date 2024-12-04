@@ -2,6 +2,7 @@ import {
   ADD_BUN,
   ADD_INGREDIENTS,
   DEL_INGREDIENTS,
+  DELL_ALL_INGREDIENTS,
   UPDATE_SORT,
 } from "../actions/currentIngredients";
 
@@ -32,6 +33,11 @@ export const currentIngredients = (state = initialState, action) => {
       return {
         ...state,
         ingredients: action.payload.ingredients,
+      };
+    case DELL_ALL_INGREDIENTS:
+      return {
+        bun: null,
+        ingredients: [],
       };
     case DEL_INGREDIENTS:
       return {
