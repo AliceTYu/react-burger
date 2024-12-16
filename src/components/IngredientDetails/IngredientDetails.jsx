@@ -1,13 +1,10 @@
-import { IngredientType } from '../../utils/types';
+import { useSelector } from 'react-redux';
 import IngredientInfo from '../IngredientInfo/IngredientInfo';
 import styles from './IngredientDetails.module.css';
-import PropTypes from 'prop-types';
 
-IngredientDetails.propTypes = {
-  choiceIngredient: PropTypes.shape(IngredientType)
-}
+function IngredientDetails() {
+  const choiceIngredient = useSelector(state => state.currentIngredientReducer.currentIngredient);
 
-function IngredientDetails({ choiceIngredient }) {
   return (
     <div className={styles.ingredient}>
       <img className='pb-4' src={choiceIngredient.image_large} alt={choiceIngredient.name} />

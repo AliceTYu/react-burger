@@ -2,41 +2,27 @@ import styles from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
-import { useEffect, useState } from 'react';
-import { URL_BASE } from '../../utils/fileWithConstants';
+import { useState } from 'react';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import OrderDetails from '../OrderDetails/OrderDetails';
-
+import { useDispatch } from 'react-redux';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DEL_NUMBER } from '../../services/actions/order';
+import { delCurrentIngredients } from '../../services/actions/currentIngredient';
 
 function App() {
-  const [dataBase, setDataBase] = useState([])
   const [visibleModal, setVisibleModal] = useState(false)
   const [viewModal, setViewModal] = useState('order')
-  const [choiceIngredient, setChoiceIngredient] = useState([])
 
-  useEffect(() => {
-    getIngedients()
-  }, [])
-
-  const getIngedients = async () => {
-    try {
-      const response = await fetch(`${URL_BASE}ingredients`)
-      if (!response.ok) {
-        throw new Error('Ошибка запроса!')
-      }
-      const data = await response.json()
-      setDataBase(data.data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  const dispatch = useDispatch()
 
   const modalClose = () => {
     setVisibleModal(false)
-    setChoiceIngredient(null)
+    dispatch(delCurrentIngredients())
+    dispatch({ type: DEL_NUMBER })
   }
-
   const modalOpen = (type) => {
     if (type === 'order') {
       setViewModal('order')
@@ -54,7 +40,7 @@ function App() {
         </Modal>)}
       {viewModal === 'ingred' && (
         <Modal header='Детали ингредиента' onClose={modalClose}>
-          <IngredientDetails choiceIngredient={choiceIngredient} dataBase={dataBase} />
+          <IngredientDetails />
         </Modal>)}
     </>
   );
@@ -67,8 +53,10 @@ function App() {
         <main className={styles.appMain}>
           <h1 className={`text text_type_main-large mt-10 mb-5`}>Соберите бургер</h1>
           <div className={styles.appBlock}>
-            <BurgerIngredients setChoiceIngredient={setChoiceIngredient} onClick={() => modalOpen('ingred')} dataBase={dataBase} />
-            <BurgerConstructor onClick={() => modalOpen('order')} dataBase={dataBase} />
+            <DndProvider backend={HTML5Backend}>
+              <BurgerIngredients onClick={() => modalOpen('ingred')} />
+              <BurgerConstructor onClick={() => modalOpen('order')} />
+            </DndProvider>
           </div>
         </main>
       </div>

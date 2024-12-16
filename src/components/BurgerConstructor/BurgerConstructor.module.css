@@ -1,14 +1,15 @@
+.burgerConstructorContainer{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
 .burgerConstructor{
     display: flex;
     flex-direction: column;
-    width: 50%;
-}
-
-.conteiner{
-    flex: 0 1 100%;
     height: 100%;
-    
-    position: relative;
+    width: 100%;
 }
 
 .footer{
@@ -16,13 +17,9 @@
     flex-direction: row;
     justify-content: end;
     align-items: center;
+    width: 100%;
 }
 
 .burgerConstructorList{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
     overflow: auto;
 }
