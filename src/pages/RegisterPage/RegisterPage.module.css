@@ -1,0 +1,16 @@
+.registr{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.link{
+    color: var(--interface-accent);
+    text-decoration: none;
+}
+
+.error{
+    color: var(--interface-error);
+}

@@ -4,10 +4,10 @@ import styles from './CardBlock.module.css';
 import PropTypes from 'prop-types';
 
 import { IngredientType } from '../../utils/types';
-import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentIngredients } from '../../services/actions/currentIngredient';
+import { useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 CardBlock.propTypes = {
   elDataBase: (PropTypes.shape(IngredientType)),
@@ -15,13 +15,10 @@ CardBlock.propTypes = {
 }
 
 function CardBlock({ type, elDataBase, onClick }) {
-  const dispatch = useDispatch()
+  const location = useLocation();
+
   const choiceIngredients = useSelector(state => state.currentIngredients.ingredients);
   const choiceBun = useSelector(state => state.currentIngredients.bun);
-
-  const clickHun = () => {
-    dispatch(setCurrentIngredients(elDataBase))
-  }
 
   const [, dragRef] = useDrag({
     type: type === 'bun' ? 'bun' : 'sauseMain',
@@ -41,18 +38,16 @@ function CardBlock({ type, elDataBase, onClick }) {
     count += choiceIngredients.filter(el => el._id === elDataBase._id).length
 
     return count;
-
   }, [choiceIngredients, choiceBun]);
 
   return (
     <>
-      <div className={styles.cardBlock} >
+      <Link state={{ background: location }} to={`/ingredients/${elDataBase._id}`} onClick={onClick} ref={dragRef} id={elDataBase._id} className={styles.cardBlock} >
         {countIngredients > 0 && <div className={styles.cardCount}><Counter count={countIngredients} size="default" extraClass="m-1" /></div>}
         <img src={elDataBase.image} alt={`${elDataBase.name}.`} />
         <PriceBlock price={elDataBase.price} fsize={1} />
         <div className={`${styles.title} text text_type_main-default`}>{elDataBase.name}</div>
-      </div>
-      <button ref={dragRef} id={elDataBase._id} onClick={function (e) { onClick(); clickHun() }} className={styles.btnNone}></button>
+      </Link>
     </>
   )
 }
