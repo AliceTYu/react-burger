@@ -9,7 +9,6 @@ export const getIngredientsThunks = () => async (dispatch) => {
     dispatch(setIngredients(data.data));
   } catch (err) {
     dispatch(errorIngredients(true));
-    console.log(err);
   }
 };
 
@@ -28,6 +27,5 @@ export const getRequestBac = (objData) => async (dispatch) => {
     dispatch(setOrder(data));
   } catch (err) {
     dispatch(errorOrder(true));
-    console.log(err);
   }
 };

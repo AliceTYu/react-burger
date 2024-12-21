@@ -1,67 +1,77 @@
 import styles from './App.module.css';
 import AppHeader from '../AppHeader/AppHeader';
-import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
-import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
-import { useState } from 'react';
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import LoginPage from '../../pages/LoginPage/LoginPage';
+import MainPage from '../../pages/MainPage/MainPage';
+import RegisterPage from '../../pages/RegisterPage/RegisterPage';
+import ErrorPage from '../../pages/ErrorPage/ErrorPage';
+import ForgotPasswordPage from '../../pages/ForgotPasswordPage/ForgotPasswordPage';
+import ResetPasswordPage from '../../pages/ResetPasswordPage/ResetPasswordPage';
+import ProfilePage from '../../pages/ProfilePage/ProfilePage';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import OrderDetails from '../OrderDetails/OrderDetails';
-import { useDispatch } from 'react-redux';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DEL_NUMBER } from '../../services/actions/order';
-import { delCurrentIngredients } from '../../services/actions/currentIngredient';
+import { getIngredientsThunks } from '../../services/thunks.js/thunks';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import { getUserData } from '../../utils/api';
+import OrderFeed from '../OrderFeed/OrderFeed';
+import Profile from '../Profile/Profile';
+import OrderHistory from '../OrderHistory/OrderHistory';
 
 function App() {
-  const [visibleModal, setVisibleModal] = useState(false)
-  const [viewModal, setViewModal] = useState('order')
-
   const dispatch = useDispatch()
 
-  const modalClose = () => {
-    setVisibleModal(false)
-    dispatch(delCurrentIngredients())
-    dispatch({ type: DEL_NUMBER })
-  }
-  const modalOpen = (type) => {
-    if (type === 'order') {
-      setViewModal('order')
-    } else if (type === 'ingred') {
-      setViewModal('ingred')
-    }
-    setVisibleModal(true)
-  }
+  useEffect(() => {
+    dispatch(getIngredientsThunks())
 
-  const modal = (
-    <>
-      {viewModal === 'order' && (
-        <Modal onClose={modalClose}>
-          <OrderDetails />
-        </Modal>)}
-      {viewModal === 'ingred' && (
-        <Modal header='Детали ингредиента' onClose={modalClose}>
-          <IngredientDetails />
-        </Modal>)}
-    </>
-  );
+    dispatch(getUserData())
+  }, [dispatch])
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const background = location.state?.background;
+
+  const modalClose = () => {
+    navigate(-1)
+  }
 
   return (
     <>
       <div className={styles.app}>
         <AppHeader />
 
-        <main className={styles.appMain}>
-          <h1 className={`text text_type_main-large mt-10 mb-5`}>Соберите бургер</h1>
-          <div className={styles.appBlock}>
-            <DndProvider backend={HTML5Backend}>
-              <BurgerIngredients onClick={() => modalOpen('ingred')} />
-              <BurgerConstructor onClick={() => modalOpen('order')} />
-            </DndProvider>
-          </div>
-        </main>
-      </div>
-      <div className={styles.modal}>
-        {visibleModal && modal}
+        <div className={styles.appMain}>
+
+          <Routes location={background || location}>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/login" element={<ProtectedRoute onlyUnAuth={true}><LoginPage /></ProtectedRoute>} />
+            <Route path="/register" element={<ProtectedRoute onlyUnAuth={true}><RegisterPage /></ProtectedRoute>} />
+            <Route path="/forgot-password" element={<ProtectedRoute onlyUnAuth={true}><ForgotPasswordPage /></ProtectedRoute>} />
+            <Route path="/reset-password" element={<ProtectedRoute onlyUnAuth={true}><ResetPasswordPage /></ProtectedRoute>} />
+            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} >
+              <Route index element={<Profile />} />
+              <Route path="order" element={<OrderHistory />} />
+            </Route>
+            <Route path="/order" element={<OrderFeed />} />
+            < Route path="/ingredients/:idModal" element={
+              <div className={`pt-30`}>
+                <IngredientDetails />
+              </div>
+            } />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+
+          {background ? (
+            <Routes>
+              <Route path="/ingredients/:idModal" element={
+                <Modal header='Детали ингредиента' onClose={modalClose}>
+                  <IngredientDetails />
+                </Modal>
+              } />
+            </Routes>
+          ) : null}
+        </div>
       </div>
     </>
   );

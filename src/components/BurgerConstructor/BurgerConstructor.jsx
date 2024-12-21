@@ -11,11 +11,15 @@ import { useMemo } from 'react';
 import { arrayForRequest } from '../../utils/arrayForRequest';
 import { getRequestBac } from '../../services/thunks.js/thunks';
 import { ORDER_ERROR } from '../../services/actions/order';
+import { useNavigate } from 'react-router-dom';
 
 function BurgerConstructor({ onClick }) {
   const dispatch = useDispatch()
+  const navigate = useNavigate();
   const choiceIngredients = useSelector(state => state.currentIngredients.ingredients);
   const choiceBun = useSelector(state => state.currentIngredients.bun);
+
+  const userReg = useSelector(state => state.loginEmailReducer.user)
 
   const [, dropTarget] = useDrop({
     accept: 'sauseMain',
@@ -56,6 +60,10 @@ function BurgerConstructor({ onClick }) {
   const sendreauest = () => {
     if (!choiceBun || choiceIngredients.length == 0) {
       return dispatch({ type: ORDER_ERROR, payload: { error: true } })
+    }
+    if (Reflect.ownKeys(userReg).length === 0) {
+      navigate('/login', { replace: true });
+      return;
     }
     dispatch({ type: ORDER_ERROR, payload: { error: false } })
     dispatch(getRequestBac(arrayForRequest(choiceBun, choiceIngredients)))
