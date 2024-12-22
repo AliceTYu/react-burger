@@ -7,12 +7,10 @@ const ProtectedRoute = ({ onlyUnAuth = false, children }) => {
 
   const user = useSelector((state) => state.loginEmailReducer.user);
 
+  const protectedRoutes = ["/register", "/forgot-password", "/reset-password"];
+
   if (onlyUnAuth && Object.keys(user).length !== 0) {
-    if (
-      location.pathname === "/register" ||
-      location.pathname === "/forgot-password" ||
-      location.pathname === "/reset-password"
-    ) {
+    if (protectedRoutes.includes(location.pathname)) {
       return <Navigate to={"/"} replace />;
     } else if (location.state?.from?.pathname) {
       return <Navigate to={location.state?.from?.pathname} />;

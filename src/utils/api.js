@@ -1,5 +1,4 @@
 import {
-  loginAccessToken,
   loginError,
   loginGetUser,
   loginSuccess,
@@ -7,6 +6,7 @@ import {
 import { registError, registSuccess } from "../services/actions/regisrtation";
 import { Navigate } from "react-router-dom";
 import { request } from "./checkResponse";
+import { eraseCookie, getCookie, setCookie } from "./cookie";
 
 // ============ РЕГИСТРАЦИЯ ===============
 export const registerEmail = (email, password, name) => async (dispatch) => {
@@ -114,7 +114,6 @@ export const resetPasswordProfile = async (password, token) => {
   }
 };
 
-// функция обычная
 // ============ ОБНОВИТЬ accessToken ===============
 export const updateAccessToken = () => async (dispatch) => {
   const refreshToken = localStorage.getItem("refreshToken");
@@ -137,33 +136,25 @@ export const updateAccessToken = () => async (dispatch) => {
       dispatch(getUserData());
     }
   } catch (err) {
-    console.log("Ошибка при обновлении токена", err);
     localStorage.removeItem("refreshToken");
     eraseCookie("accessToken");
   }
 };
 
-// ============ ОБНОВИТЬ ДАННЫЕ ===============
+// ============ ОБНОВИТЬ ДАННЫЕ ПОЛЬЗОВАТЕЛЯ ===============
 export const saveChange = (name, email, pass) => async (dispatch) => {
-  const accessToken = getCookie("accessToken");
   try {
-    const data = await request("auth/user", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: accessToken,
+    const data = await fetchWithRefresh(
+      "auth/user",
+      {
+        method: "PATCH",
+        body: JSON.stringify({ email, pass, name }),
       },
-      body: JSON.stringify({
-        email,
-        pass,
-        name,
-      }),
-    });
+      dispatch
+    );
 
-    if (accessToken) {
-      dispatch(loginSuccess(true));
-      dispatch(loginGetUser(data.user));
-    }
+    dispatch(loginSuccess(true));
+    dispatch(loginGetUser(data.user));
   } catch (err) {
     console.log(err);
   }
@@ -172,53 +163,65 @@ export const saveChange = (name, email, pass) => async (dispatch) => {
 // ============ ПРОВЕРИТЬ ПОЛЬЗОВАТЕЛЯ ===============
 export const getUserData = () => async (dispatch) => {
   dispatch(loginSuccess(false));
-  const accessToken = getCookie("accessToken");
-
-  if (accessToken) {
-    try {
-      const data = await request("auth/user", {
+  try {
+    const data = await fetchWithRefresh(
+      "auth/user",
+      {
         method: "GET",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: accessToken,
-        },
-        redirect: "follow",
-        referrerPolicy: "no-referrer",
-      });
-
-      dispatch(loginSuccess(true));
-      dispatch(loginGetUser(data.user));
-    } catch (err) {
-      console.log(err);
-      await dispatch(updateAccessToken());
-    }
+      },
+      dispatch
+    );
+    dispatch(loginSuccess(true));
+    dispatch(loginGetUser(data.user));
+  } catch (err) {
+    console.log(err);
   }
 };
 
-function setCookie(name, value, minutes) {
-  let expires = "";
-  if (minutes) {
-    const date = new Date();
-    date.setTime(date.getTime() + minutes * 60 * 1000);
-    expires = "; expires=" + date.toUTCString();
-  }
-  document.cookie = name + "=" + (value || "") + expires + "; path=/";
-}
+// export const getUserData = () => async (dispatch) => {
+//   dispatch(loginSuccess(false));
+//   const accessToken = getCookie("accessToken");
 
-function getCookie(name) {
-  const nameEQ = name + "=";
-  const ca = document.cookie.split(";");
-  for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) === " ") c = c.substring(1, c.length);
-    if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-  }
-  return null;
-}
+//   if (accessToken) {
+//     try {
+//       const data = await request("auth/user", {
+//         method: "GET",
+//         mode: "cors",
+//         cache: "no-cache",
+//         credentials: "same-origin",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: accessToken,
+//         },
+//         redirect: "follow",
+//         referrerPolicy: "no-referrer",
+//       });
 
-function eraseCookie(name) {
-  document.cookie = name + "=; Max-Age=0;";
+//       dispatch(loginSuccess(true));
+//       dispatch(loginGetUser(data.user));
+//     } catch (err) {
+//       console.log(err);
+//       await dispatch(updateAccessToken());
+//     }
+//   }
+// };
+
+async function fetchWithRefresh(url, options = {}, dispatch) {
+  const accessToken = getCookie("accessToken");
+
+  if (accessToken) {
+    options.headers = {
+      ...options.headers,
+      "Content-Type": "application/json",
+      Authorization: accessToken,
+    };
+  }
+
+  try {
+    const response = await request(url, options);
+    return response;
+  } catch (error) {
+    await dispatch(updateAccessToken());
+    return dispatch(fetchWithRefresh(url, options, dispatch));
+  }
 }
