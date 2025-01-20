@@ -1,0 +1,27 @@
+.profile{
+    display: flex;
+    flex-direction: row;
+    margin-top: 100px;
+}
+
+.profileMenu{
+    max-width: 400px;
+}
+
+.list{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+a{
+    color: unset;
+}
+
+.active{
+    color: purple;
+}
+
+.isActive{
+    color: var(--text-primary-light-standart-text);
+}

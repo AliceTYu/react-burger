@@ -55,7 +55,9 @@ function BurgerIngredients({ onClick }) {
     burgerIngredientsRef.current.addEventListener('scroll', handleScroll);
 
     return () => {
-      burgerIngredientsRef.current.removeEventListener('scroll', handleScroll);
+      if (burgerIngredientsRef.current) {
+        burgerIngredientsRef.current.removeEventListener('scroll', handleScroll);
+      }
     };
   }, []);
 
