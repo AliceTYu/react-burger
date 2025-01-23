@@ -12,7 +12,7 @@ import {
   registPassword,
 } from "../../services/actions/regisrtation";
 import { registerEmail } from "../../utils/api";
-import { ChangeEvent, SyntheticEvent } from "react";
+import { ChangeEvent, FormEvent } from "react";
 
 function RegisterPage() {
   const dispatch = useDispatch();
@@ -44,7 +44,7 @@ function RegisterPage() {
     dispatch(registEmail(e.target.value));
   }
 
-  function registerPerson(e: SyntheticEvent) {
+  function registerPerson(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // @ts-ignore
     dispatch(registerEmail(emailReg, passReg, nameReg));

@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loginEmail, loginPassword } from "../../services/actions/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { loginEmailTh } from "../../utils/api";
-import { ChangeEvent, SyntheticEvent } from "react";
+import { ChangeEvent, FormEvent } from "react";
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -30,7 +30,7 @@ function LoginPage() {
     dispatch(loginEmail(e.target.value));
   }
 
-  function loginEmailClick(e: SyntheticEvent) {
+  function loginEmailClick(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // @ts-ignore
     dispatch(loginEmailTh(emailLog, passLog));

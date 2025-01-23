@@ -5,14 +5,14 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { SyntheticEvent, useState } from "react";
+import { FormEvent, useState } from "react";
 import { forgotEmail } from "../../utils/api";
 
 function ForgotPasswordPage() {
   const [emailVal, setEmailVal] = useState<string>("");
   const navigate = useNavigate();
 
-  const sendEmail = async (e: SyntheticEvent) => {
+  const sendEmail = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     localStorage.setItem("ForgotPasswordId", "1");
     console.log(emailVal);
