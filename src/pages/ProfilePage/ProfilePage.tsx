@@ -1,13 +1,12 @@
 import { NavLink, Outlet } from "react-router-dom";
 import styles from "./ProfilePage.module.css";
-import { useDispatch } from "react-redux";
 import { exitLogin } from "../../utils/api";
+import { useDispatch } from "../..";
 
 function ProfilePage() {
   const dispatch = useDispatch();
 
   const exitClick = () => {
-    // @ts-ignore
     dispatch(exitLogin());
   };
 
@@ -31,7 +30,7 @@ function ProfilePage() {
             </li>
             <li>
               <NavLink
-                to={"/profile/order"}
+                to={"/profile/orders"}
                 className={({ isActive }) =>
                   isActive ? styles.isActive : "text_color_inactive"
                 }
@@ -56,7 +55,7 @@ function ProfilePage() {
           В этом разделе вы можете изменить свои персональные данные
         </div>
       </div>
-      <div>
+      <div className={styles.outletBlock}>
         <Outlet />
       </div>
     </div>

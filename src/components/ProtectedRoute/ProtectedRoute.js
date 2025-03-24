@@ -1,16 +1,16 @@
-import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
+import { useTypesSelector } from "../../services/reducers";
 
 const ProtectedRoute = ({ onlyUnAuth = false, children }) => {
   const location = useLocation();
 
   const ForgotPasswordId = localStorage.getItem("ForgotPasswordId");
 
-  const user = useSelector((state) => state.loginEmailReducer.user);
+  const user = useTypesSelector((state) => state.loginEmailReducer.user);
 
   const protectedRoutes = ["/register", "/forgot-password", "/reset-password"];
 
-  if (onlyUnAuth && Object.keys(user).length !== 0) {
+  if (onlyUnAuth && user) {
     if (protectedRoutes.includes(location.pathname)) {
       return <Navigate to="/" replace />;
     } else if (location.state?.from?.pathname) {
@@ -30,7 +30,7 @@ const ProtectedRoute = ({ onlyUnAuth = false, children }) => {
     return <Navigate to="/reset-password" replace />;
   }
 
-  if (!onlyUnAuth && Object.keys(user).length === 0) {
+  if (!onlyUnAuth && !user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

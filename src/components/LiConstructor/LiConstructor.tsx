@@ -3,7 +3,6 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./LiConstructor.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import {
   delIngredients,
   updateSortIngredients,
@@ -11,6 +10,8 @@ import {
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { IIngredientType } from "../../utils/types";
+import { useDispatch } from "../..";
+import { useTypesSelector } from "../../services/reducers";
 
 interface propTypes {
   index: number;
@@ -24,8 +25,7 @@ interface DragItem {
 
 function LiConstructor({ currentEl, index }: propTypes): JSX.Element {
   const dispatch = useDispatch();
-  const choiceIngredients = useSelector(
-    // @ts-ignore
+  const choiceIngredients = useTypesSelector(
     (state) => state.currentIngredients.ingredients
   );
 

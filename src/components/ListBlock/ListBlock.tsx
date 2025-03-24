@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
 import CardBlock from "../CardBlock/CardBlock";
 import styles from "./ListBlock.module.css";
 import { IIngredientType } from "../../utils/types";
+import { useTypesSelector } from "../../services/reducers";
 
 interface propTypes {
   type: string;
@@ -9,8 +9,7 @@ interface propTypes {
 }
 
 function ListBlock({ type, onClick }: propTypes): JSX.Element {
-  const allIngredients = useSelector(
-    // @ts-ignore
+  const allIngredients = useTypesSelector(
     (state) => state.allIngredientsReducer.allIngredients
   );
 

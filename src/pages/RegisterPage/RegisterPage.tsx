@@ -4,7 +4,6 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   registEmail,
@@ -13,6 +12,8 @@ import {
 } from "../../services/actions/regisrtation";
 import { registerEmail } from "../../utils/api";
 import { ChangeEvent, FormEvent } from "react";
+import { useDispatch } from "../..";
+import { useTypesSelector } from "../../services/reducers";
 
 function RegisterPage() {
   const dispatch = useDispatch();
@@ -21,16 +22,18 @@ function RegisterPage() {
 
   const from = location.state?.from?.pathname || "/";
 
-  // @ts-ignore
-  const emailReg = useSelector((state) => state.registrationEmailReducer.email);
-  const passReg = useSelector(
-    // @ts-ignore
+  const emailReg = useTypesSelector(
+    (state) => state.registrationEmailReducer.email
+  );
+  const passReg = useTypesSelector(
     (state) => state.registrationEmailReducer.password
   );
-  // @ts-ignore
-  const nameReg = useSelector((state) => state.registrationEmailReducer.name);
-  // @ts-ignore
-  const errorReg = useSelector((state) => state.registrationEmailReducer.error);
+  const nameReg = useTypesSelector(
+    (state) => state.registrationEmailReducer.name
+  );
+  const errorReg = useTypesSelector(
+    (state) => state.registrationEmailReducer.error
+  );
 
   function onChangeName(e: ChangeEvent<HTMLInputElement>) {
     dispatch(registName(e.target.value));
@@ -46,7 +49,6 @@ function RegisterPage() {
 
   function registerPerson(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // @ts-ignore
     dispatch(registerEmail(emailReg, passReg, nameReg));
 
     navigate(from, { replace: true });

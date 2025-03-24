@@ -4,25 +4,24 @@ import {
   loginSuccess,
 } from "../services/actions/auth";
 import { registError, registSuccess } from "../services/actions/regisrtation";
-import { Navigate } from "react-router-dom";
 import { request } from "./checkResponse";
 import { eraseCookie, getCookie, setCookie } from "./cookie";
+import {AppDispatch, useDispatch} from '../index'
 
 // ============ РЕГИСТРАЦИЯ ===============
 interface IregisterEmail {
   "success": boolean,
   "user": {
     "email": string,
-    "name": string
+    "name": string,
   },
   "accessToken": string,
-  "refreshToken": string
+  "refreshToken": string,
 }
 
-// @ts-ignore
-export const registerEmail = (email: string, password: string, name: string) => async (dispatch) => {
+export const registerEmail = (email: string, password: string, name: string) => async (dispatch: AppDispatch) => {
   try {
-    const data = await request("auth/register", {
+    const data = await request<IregisterEmail>("auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -32,7 +31,8 @@ export const registerEmail = (email: string, password: string, name: string) => 
         password,
         name,
       }),
-    }) as IregisterEmail;
+    });
+
     localStorage.setItem("refreshToken", data.refreshToken);
     setCookie("accessToken", data.accessToken, 200);
 
@@ -50,10 +50,9 @@ export const registerEmail = (email: string, password: string, name: string) => 
   Алиса
 */
 // ============ ВХОД ===============
-// @ts-ignore
-export const loginEmailTh = (email: string, password: string) => async (dispatch) => {
+export const loginEmailTh = (email: string, password: string) => async (dispatch: AppDispatch) => {
   try {
-    const data = await request("auth/login", {
+    const data = await request<IregisterEmail>("auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
@@ -62,7 +61,7 @@ export const loginEmailTh = (email: string, password: string) => async (dispatch
         email,
         password,
       }),
-    }) as IregisterEmail;
+    });
     localStorage.setItem("refreshToken", data.refreshToken);
     setCookie("accessToken", data.accessToken, 200);
 
@@ -79,21 +78,20 @@ interface IforgotEmail {
   message: string
 }
 
-// @ts-ignores
-export const exitLogin = () => async (dispatch) => {
+export const exitLogin = () => async (dispatch: AppDispatch) => {
   const refreshToken = localStorage.getItem("refreshToken");
   try {
-    const data = await request("auth/logout", {
+    const data = await request<IforgotEmail>("auth/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify({ token: refreshToken }),
-    }) as IforgotEmail;
+    });
     localStorage.removeItem("refreshToken");
     eraseCookie("accessToken");
 
-    dispatch(loginGetUser({}));
+    dispatch(loginGetUser(null));
   } catch (err: any) {
     console.log("выход из профиля err", err.message);
   }
@@ -102,13 +100,13 @@ export const exitLogin = () => async (dispatch) => {
 // ============ ВОССТАНОВИТЬ ПАРОЛЬ ===============
 export const forgotEmail = async (objData: string) => {
   try {
-    const data = await request("password-reset", {
+    const data = await request<IforgotEmail>("password-reset", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify({ email: objData }),
-    }) as IforgotEmail;
+    });
 
     return data;
   } catch (err) {
@@ -118,13 +116,13 @@ export const forgotEmail = async (objData: string) => {
 
 export const resetPasswordProfile = async (password: string, token: string) => {
   try {
-    const data = await request("password-reset/reset", {
+    const data = await request<IforgotEmail>("password-reset/reset", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify({ password: password, token: token }),
-    }) as IforgotEmail;
+    });
 
     return data;
   } catch (err) {
@@ -139,22 +137,21 @@ interface IUpdateAccessToken {
   "refreshToken": string
 } 
 
-// @ts-ignore
-export const updateAccessToken = () => async (dispatch) => {
+export const updateAccessToken = () => async (dispatch: AppDispatch) => {
   const refreshToken = localStorage.getItem("refreshToken");
-
+  
   if (!refreshToken) {
     return null;
   }
 
   try {
-    const data = await request("auth/token", {
+    const data = await request<IUpdateAccessToken>("auth/token", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
       body: JSON.stringify({ token: refreshToken }),
-    }) as IUpdateAccessToken;
+    });
     if (data.accessToken) {
       localStorage.setItem("refreshToken", data.refreshToken);
       setCookie("accessToken", data.accessToken, 200);
@@ -169,35 +166,41 @@ export const updateAccessToken = () => async (dispatch) => {
 // ============ ОБНОВИТЬ ДАННЫЕ ПОЛЬЗОВАТЕЛЯ ===============
 interface IUser{
   "success": boolean,
-  "user": {
+  "user": { 
     "email": string,
     "name": string
   }
 } 
 
-// @ts-ignore
-export const saveChange = (name: string, email: string, pass: string) => async (dispatch) => {
+export const saveChange = (name: string, email: string, pass: string) => async (dispatch: AppDispatch) => {
   try {
-    const data = await fetchWithRefresh("auth/user", {
+    const data = await fetchWithRefresh<IUser>("auth/user", {
       method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ email, pass, name }),
-    }) as IUser;
+    });
 
     dispatch(loginSuccess(true));
     dispatch(loginGetUser(data.user));
   } catch (err) {
     console.log(err);
   }
-};
+}
 
 // ============ ПРОВЕРИТЬ ПОЛЬЗОВАТЕЛЯ ===============
-// @ts-ignore
-export const getUserData = () => async (dispatch) => {
+
+export const getUserData = () => async (dispatch: AppDispatch) => {
   dispatch(loginSuccess(false));
   try {
-    const data = await fetchWithRefresh("auth/user", {
+    const data = await fetchWithRefresh<IUser>("auth/user", {
       method: "GET",
-    }) as IUser;
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }, dispatch);
+    
     dispatch(loginSuccess(true));
     dispatch(loginGetUser(data.user));
   } catch (err) {
@@ -205,37 +208,7 @@ export const getUserData = () => async (dispatch) => {
   }
 };
 
-// export const getUserData = () => async (dispatch) => {
-//   dispatch(loginSuccess(false));
-//   const accessToken = getCookie("accessToken");
-
-//   if (accessToken) {
-//     try {
-//       const data = await request("auth/user", {
-//         method: "GET",
-//         mode: "cors",
-//         cache: "no-cache",
-//         credentials: "same-origin",
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: accessToken,
-//         },
-//         redirect: "follow",
-//         referrerPolicy: "no-referrer",
-//       });
-
-//       dispatch(loginSuccess(true));
-//       dispatch(loginGetUser(data.user));
-//     } catch (err) {
-//       console.log(err);
-//       await dispatch(updateAccessToken());
-//     }
-//   }
-// };
-
-
-// @ts-ignore
-async function fetchWithRefresh(url: string, options: RequestInit = {}, dispatch?) {
+async function fetchWithRefresh<T>(url: string, options: RequestInit = {}, dispatch?: AppDispatch): Promise<T> {
   const accessToken = getCookie("accessToken");
 
   if (accessToken) {
@@ -248,9 +221,13 @@ async function fetchWithRefresh(url: string, options: RequestInit = {}, dispatch
 
   try {
     const response = await request(url, options);
-    return response;
+    return response as T;
   } catch (error) {
-    await dispatch(updateAccessToken());
-    return dispatch(fetchWithRefresh(url, options, dispatch));
+    if (dispatch) {
+      await dispatch(updateAccessToken());
+      return fetchWithRefresh(url, options, dispatch);
+    } else {
+      throw error;
+    }
   }
 }

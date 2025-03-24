@@ -30,3 +30,53 @@ export interface IIngredientType {
   calories: number,
   __v: number,
 }
+
+export interface ISetOrder {
+  "success": boolean,
+  "name": string,
+  "order": {
+      "number": number
+  }
+}
+
+export interface IUserr {
+  "name": string,
+  "email": string,
+}
+
+export interface IOrderFeed {
+  "success": boolean,
+  "orders": [
+    {
+      "ingredients": string[],
+      "_id": string,
+      "status": string,
+      "name": string,
+      "number": number,
+      "createdAt": string,
+      "updatedAt": string
+    }
+  ],
+  "total": number,
+  "totalToday": number
+} 
+
+export interface IOrderFeedIng {
+  "ingredients"?: string[] ,
+  "_id"?: string,
+  "id"?: string,
+  "name": string,
+  "status"?: string,
+  "number": number,
+  "createdAt": string,
+  "updatedAt"?: string,
+  "idFeed"?: "idFeed",
+  "typeOrders"?: "user"
+} 
+
+
+export interface IOrderResponse {
+  success: boolean;
+  name: string;
+  order: IOrderFeedIng;
+}

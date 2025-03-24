@@ -1,0 +1,19 @@
+.block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.blockMain{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.priceBlock{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

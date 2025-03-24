@@ -4,9 +4,18 @@ import {
   REGISTRATION_NAME,
   REGISTRATION_PASSWORD,
   REGISTRATION_SECCESS,
+  RegistrationAction,
 } from "../actions/regisrtation";
 
-const initialState = {
+interface RegistrationStateType {
+  email: string;
+  password: string;
+  name: string;
+  error: string;
+  success: boolean;
+}
+
+const initialState: RegistrationStateType = {
   email: "",
   password: "",
   name: "",
@@ -14,7 +23,10 @@ const initialState = {
   success: false,
 };
 
-export const registrationEmailReducer = (state = initialState, action) => {
+export const registrationEmailReducer = (
+  state = initialState,
+  action: RegistrationAction
+): RegistrationStateType => {
   switch (action.type) {
     case REGISTRATION_EMAIL:
       return {

@@ -7,12 +7,11 @@ import {
   Logo,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
+import { useTypesSelector } from "../../services/reducers";
 
 function AppHeader(): JSX.Element {
   const location = useLocation();
-  // @ts-ignore
-  const userLogin = useSelector((state) => state.loginEmailReducer.user);
+  const userLogin = useTypesSelector((state) => state.loginEmailReducer.user);
 
   const isProfileActive = location.pathname.startsWith("/profile");
 
@@ -25,9 +24,9 @@ function AppHeader(): JSX.Element {
               type={location.pathname === "/" ? "primary" : "secondary"}
             />
           </ButtonIcon>
-          <ButtonIcon toLink={"/order"} text={"Лента заказов"}>
+          <ButtonIcon toLink={"/feed"} text={"Лента заказов"}>
             <ListIcon
-              type={location.pathname === "/order" ? "primary" : "secondary"}
+              type={location.pathname === "/feed" ? "primary" : "secondary"}
             />
           </ButtonIcon>
         </div>
@@ -40,11 +39,7 @@ function AppHeader(): JSX.Element {
           <ButtonIcon
             isProfileActive={isProfileActive}
             toLink={"/profile"}
-            text={
-              Object.keys(userLogin).length !== 0
-                ? userLogin.name
-                : "Личный кабинет"
-            }
+            text={userLogin ? userLogin.name : "Личный кабинет"}
           >
             <ProfileIcon type={isProfileActive ? "primary" : "secondary"} />
           </ButtonIcon>

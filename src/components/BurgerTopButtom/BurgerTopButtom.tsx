@@ -1,7 +1,7 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./BurgerTopButtom.module.css";
 import PatternBurger from "../PatternBurger/PatternBurger";
-import { useSelector } from "react-redux";
+import { useTypesSelector } from "../../services/reducers";
 
 interface propTypes {
   type: "bottom" | "top";
@@ -9,8 +9,7 @@ interface propTypes {
 }
 
 function BurgerTopButtom({ type, type_rus }: propTypes): JSX.Element {
-  // @ts-ignore
-  const choiceBun = useSelector((state) => state.currentIngredients.bun);
+  const choiceBun = useTypesSelector((state) => state.currentIngredients.bun);
 
   return (
     <div className={`${styles.item} ml-10 mb-2`}>

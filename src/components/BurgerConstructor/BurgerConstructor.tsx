@@ -3,7 +3,6 @@ import PriceBlock from "../PriceBlock/PriceBlock";
 import styles from "./BurgerConstructor.module.css";
 import ListConstructor from "../ListConstructor/ListConstructor";
 import BurgerTopButtom from "../BurgerTopButtom/BurgerTopButtom";
-import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import {
   addBun,
@@ -12,10 +11,12 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import { useMemo } from "react";
 import { arrayForRequest } from "../../utils/arrayForRequest";
-import { getRequestBac } from "../../services/thunks.js/thunks";
 import { ORDER_ERROR } from "../../services/actions/order";
 import { useNavigate } from "react-router-dom";
 import { IIngredientType } from "../../utils/types";
+import { useDispatch } from "../..";
+import { useTypesSelector } from "../../services/reducers";
+import { getRequestBac } from "../../services/thunks.js/thunks";
 
 interface propTypes {
   onClick: () => void;
@@ -24,32 +25,29 @@ interface propTypes {
 function BurgerConstructor({ onClick }: propTypes): JSX.Element {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const choiceIngredients = useSelector(
-    // @ts-ignore
+  const choiceIngredients = useTypesSelector(
     (state) => state.currentIngredients.ingredients
   );
-  // @ts-ignore
-  const choiceBun = useSelector((state) => state.currentIngredients.bun);
-  // @ts-ignore
-  const userReg = useSelector((state) => state.loginEmailReducer.user);
+  const choiceBun = useTypesSelector((state) => state.currentIngredients.bun);
+  const userReg = useTypesSelector((state) => state.loginEmailReducer.user);
 
   const [, dropTarget] = useDrop({
     accept: "sauseMain",
-    drop(itemId) {
+    drop(itemId: IIngredientType) {
       dispatch(addIngredients(uuidv4(), itemId));
     },
   });
 
   const [, dropTarget2] = useDrop({
     accept: "bun",
-    drop(itemId) {
+    drop(itemId: IIngredientType) {
       dispatch(addBun(itemId));
     },
   });
 
   const [, dropTarget3] = useDrop({
     accept: "bun",
-    drop(itemId) {
+    drop(itemId: IIngredientType) {
       dispatch(addBun(itemId));
     },
   });
@@ -73,12 +71,11 @@ function BurgerConstructor({ onClick }: propTypes): JSX.Element {
     if (!choiceBun || choiceIngredients.length === 0) {
       return dispatch({ type: ORDER_ERROR, payload: { error: true } });
     }
-    if (Reflect.ownKeys(userReg).length === 0) {
+    if (!userReg) {
       navigate("/login", { replace: true });
       return;
     }
     dispatch({ type: ORDER_ERROR, payload: { error: false } });
-    // @ts-ignore
     dispatch(getRequestBac(arrayForRequest(choiceBun, choiceIngredients)));
   };
 

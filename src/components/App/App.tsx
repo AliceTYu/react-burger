@@ -9,24 +9,24 @@ import ForgotPasswordPage from "../../pages/ForgotPasswordPage/ForgotPasswordPag
 import ResetPasswordPage from "../../pages/ResetPasswordPage/ResetPasswordPage";
 import ProfilePage from "../../pages/ProfilePage/ProfilePage";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import { getIngredientsThunks } from "../../services/thunks.js/thunks";
 import { getUserData } from "../../utils/api";
 import OrderFeed from "../OrderFeed/OrderFeed";
 import Profile from "../Profile/Profile";
-import OrderHistory from "../OrderHistory/OrderHistory";
 import ProtectedRoute from "./../ProtectedRoute/ProtectedRoute";
+import OrderHistory from "./../OrderHistory/OrderHistory";
+import OrderFeedId from "../OrderFeedId/OrderFeedId";
+import { useDispatch } from "./../../index";
+import { getIngredientsThunks } from "../../services/thunks.js/thunks";
 
 function App(): JSX.Element {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // @ts-ignore
     dispatch(getIngredientsThunks());
 
-    // @ts-ignore
+    console.log("getUserData getUserData getUserData");
     dispatch(getUserData());
   }, [dispatch]);
 
@@ -87,9 +87,27 @@ function App(): JSX.Element {
               }
             >
               <Route index element={<Profile />} />
-              <Route path="order" element={<OrderHistory />} />
+              <Route path="/profile/orders" element={<OrderHistory />} />
             </Route>
-            <Route path="/order" element={<OrderFeed />} />
+            <Route
+              path="/profile/orders/:idFeed"
+              element={
+                <div className={`pt-30`}>
+                  <OrderFeedId />
+                </div>
+              }
+            />
+
+            <Route path="/feed" element={<OrderFeed />} />
+            <Route
+              path="/feed/:idFeed"
+              element={
+                <div className={`pt-30`}>
+                  <OrderFeedId />
+                </div>
+              }
+            />
+
             <Route
               path="/ingredients/:idModal"
               element={
@@ -108,6 +126,22 @@ function App(): JSX.Element {
                 element={
                   <Modal header="Детали ингредиента" onClose={modalClose}>
                     <IngredientDetails />
+                  </Modal>
+                }
+              />
+              <Route
+                path="/feed/:idFeed"
+                element={
+                  <Modal onClose={modalClose}>
+                    <OrderFeedId />
+                  </Modal>
+                }
+              />
+              <Route
+                path="/profile/orders/:idFeed"
+                element={
+                  <Modal onClose={modalClose}>
+                    <OrderFeedId />
                   </Modal>
                 }
               />

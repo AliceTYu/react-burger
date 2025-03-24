@@ -1,13 +1,8 @@
 import { URL_BASE } from "./fileWithConstants";
 
-interface ApiError {
-  message: string;
-}
-
-export function checkResponse<T>(res: Response): Promise<T> {
+export function checkResponse(res: Response): Promise<any> {
   if (!res.ok) {
-    // return Promise.reject(new Error(res.status));
-    return res.json().then((err: ApiError) => {
+    return res.json().then((err: { message: string }) => {
       return Promise.reject(new Error(err.message));
     });
   }
@@ -15,5 +10,5 @@ export function checkResponse<T>(res: Response): Promise<T> {
 }
 
 export function request<T>(url: string, options: RequestInit = {}): Promise<T> {
-  return fetch(`${URL_BASE}${url}`, options).then(checkResponse<T>);
+  return fetch(`${URL_BASE}${url}`, options).then(checkResponse);
 }
