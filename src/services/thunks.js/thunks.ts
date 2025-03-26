@@ -17,7 +17,6 @@ export const getIngredientsThunks = () => async (dispatch: AppDispatch) => {
 
 export const getRequestBac = (objData: string[]) => async (dispatch: AppDispatch) => {
   try {
-    console.log("objData", objData);
     const accessToken = getCookie("accessToken");
 
     dispatch(isLoadingOrder(true));
@@ -30,7 +29,6 @@ export const getRequestBac = (objData: string[]) => async (dispatch: AppDispatch
       body: JSON.stringify({ ingredients: objData }),
     });
     dispatch(setOrder(data));
-    console.log("data", data);
     dispatch(isLoadingOrder(false));
     dispatch(delAllIngredients());
   } catch (err) {

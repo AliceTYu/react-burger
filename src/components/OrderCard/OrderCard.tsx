@@ -38,7 +38,6 @@ function OrderCard({
     </>
   );
 
-  console.log(typeOrders, "typeOrders");
   const { orders } = useTypesSelector(
     typeOrders ? (state) => state.feedReducerUser : (state) => state.feedReducer
   );

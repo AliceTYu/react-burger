@@ -14,6 +14,7 @@ function OrderFeed(): JSX.Element {
   const { orders, total, totalToday } = useTypesSelector(
     (state) => state.feedReducer
   );
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -56,10 +57,10 @@ function OrderFeed(): JSX.Element {
                     .slice(0, 5)
                     .map((el: IOrderFeedIng) => {
                       return (
-                        <>
+                        <div key={el._id}>
                           {el.number}
                           <br></br>
-                        </>
+                        </div>
                       );
                     })}
               </div>
@@ -70,10 +71,10 @@ function OrderFeed(): JSX.Element {
                     .slice(5, 10)
                     .map((el: IOrderFeedIng) => {
                       return (
-                        <>
+                        <div key={el._id}>
                           {el.number}
                           <br></br>
-                        </>
+                        </div>
                       );
                     })}
               </div>

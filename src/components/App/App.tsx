@@ -26,7 +26,6 @@ function App(): JSX.Element {
   useEffect(() => {
     dispatch(getIngredientsThunks());
 
-    console.log("getUserData getUserData getUserData");
     dispatch(getUserData());
   }, [dispatch]);
 
