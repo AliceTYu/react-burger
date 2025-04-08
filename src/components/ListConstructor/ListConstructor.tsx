@@ -1,12 +1,11 @@
 import styles from "./ListConstructor.module.css";
-import { useSelector } from "react-redux";
 import PatternBurger from "../PatternBurger/PatternBurger";
 import LiConstructor from "../LiConstructor/LiConstructor";
 import { IIngredientType } from "../../utils/types";
+import { useTypesSelector } from "../../services/reducers";
 
 function ListConstructor(): JSX.Element {
-  const choiceIngredients = useSelector(
-    // @ts-ignore
+  const choiceIngredients = useTypesSelector(
     (state) => state.currentIngredients.ingredients
   );
 

@@ -1,17 +1,24 @@
+import { IIngredientType } from "../../utils/types";
 import {
   ADD_BUN,
   ADD_INGREDIENTS,
+  CurrentIngredientsActions,
   DEL_INGREDIENTS,
   DELL_ALL_INGREDIENTS,
   UPDATE_SORT,
 } from "../actions/currentIngredients";
 
-const initialState = {
+type initialStateTypes = {
+  bun: IIngredientType | null; 
+  ingredients: IIngredientType[]; 
+};
+
+const initialState: initialStateTypes = {
   bun: null,
   ingredients: [],
 };
 
-export const currentIngredients = (state = initialState, action) => {
+export const currentIngredients = (state = initialState, action: CurrentIngredientsActions): initialStateTypes => {
   switch (action.type) {
     case ADD_BUN:
       return {
@@ -19,13 +26,14 @@ export const currentIngredients = (state = initialState, action) => {
         bun: action.payload.bun,
       };
     case ADD_INGREDIENTS:
+      const { id, ...restOfIngredient } = action.payload.newIngredient;
       return {
         ...state,
         ingredients: [
           ...state.ingredients,
           {
             id: action.payload.id,
-            ...action.payload.newIngredient,
+            ...restOfIngredient,
           },
         ],
       };

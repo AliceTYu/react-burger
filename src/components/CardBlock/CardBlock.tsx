@@ -2,10 +2,10 @@ import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import PriceBlock from "../PriceBlock/PriceBlock";
 import styles from "./CardBlock.module.css";
 import { IIngredientType } from "../../utils/types";
-import { useSelector } from "react-redux";
 import { useDrag } from "react-dnd";
 import { useMemo } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTypesSelector } from "../../services/reducers";
 
 interface propTypes {
   elDataBase: IIngredientType;
@@ -16,12 +16,10 @@ interface propTypes {
 function CardBlock({ type, elDataBase, onClick }: propTypes): JSX.Element {
   const location = useLocation();
 
-  const choiceIngredients = useSelector(
-    // @ts-ignore
+  const choiceIngredients = useTypesSelector(
     (state) => state.currentIngredients.ingredients
   );
-  // @ts-ignore
-  const choiceBun = useSelector((state) => state.currentIngredients.bun);
+  const choiceBun = useTypesSelector((state) => state.currentIngredients.bun);
 
   const [, dragRef] = useDrag({
     type: type === "bun" ? "bun" : "sauseMain",

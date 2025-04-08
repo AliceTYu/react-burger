@@ -5,9 +5,10 @@ import {
 import styles from "./LoginPage.module.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { loginEmail, loginPassword } from "../../services/actions/auth";
-import { useDispatch, useSelector } from "react-redux";
 import { loginEmailTh } from "../../utils/api";
 import { ChangeEvent, FormEvent } from "react";
+import { useDispatch } from "../..";
+import { useTypesSelector } from "../../services/reducers";
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -15,12 +16,9 @@ function LoginPage() {
   let navigate = useNavigate();
   const from = location.state?.from?.pathname || "/";
 
-  // @ts-ignore
-  const emailLog = useSelector((state) => state.loginEmailReducer.email);
-  // @ts-ignore
-  const passLog = useSelector((state) => state.loginEmailReducer.password);
-  // @ts-ignore
-  const errorLog = useSelector((state) => state.loginEmailReducer.error);
+  const emailLog = useTypesSelector((state) => state.loginEmailReducer.email);
+  const passLog = useTypesSelector((state) => state.loginEmailReducer.password);
+  const errorLog = useTypesSelector((state) => state.loginEmailReducer.error);
 
   function onChangePassword(e: ChangeEvent<HTMLInputElement>) {
     dispatch(loginPassword(e.target.value));
@@ -32,7 +30,6 @@ function LoginPage() {
 
   function loginEmailClick(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // @ts-ignore
     dispatch(loginEmailTh(emailLog, passLog));
 
     navigate(from, { replace: true });

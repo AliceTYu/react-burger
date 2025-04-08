@@ -1,14 +1,11 @@
 import styles from "./OrderDetails.module.css";
 import imageDone from "../../images/done.svg";
-import { useSelector } from "react-redux";
+import { useTypesSelector } from "../../services/reducers";
 
 function OrderDetails(): JSX.Element {
-  // @ts-ignore
-  const order = useSelector((state) => state.orderReducer.order);
-  // @ts-ignore
-  const error = useSelector((state) => state.orderReducer.error);
-  // @ts-ignore
-  const loading = useSelector((state) => state.orderReducer.isLoading);
+  const order = useTypesSelector((state) => state.orderReducer.order);
+  const error = useTypesSelector((state) => state.orderReducer.error);
+  const loading = useTypesSelector((state) => state.orderReducer.isLoading);
 
   return (
     <div className={`${styles.order} pt-15 pb-15 pr-25 pl-25`}>

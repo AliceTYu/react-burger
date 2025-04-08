@@ -1,0 +1,37 @@
+
+.img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid purple;
+    position: relative;
+    background: var(--interface-bg);
+}
+
+.img img {
+    position: absolute;
+    top: 8%;
+    left: -30%;
+    display: block;
+    height: 80%;
+}
+
+.overlap:not(:first-child) {
+    margin-left: -30px;
+  }
+
+.remainingCount{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    fill: var(--interface-modal-bg);
+    border: 2px solid purple;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: var(--interface-bg);
+    opacity: .6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -5,11 +5,11 @@ import BurgerIngredients from "../../components/BurgerIngredients/BurgerIngredie
 import BurgerConstructor from "../../components/BurgerConstructor/BurgerConstructor";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { delCurrentIngredients } from "../../services/actions/currentIngredient";
 import { DEL_NUMBER } from "../../services/actions/order";
 import Modal from "../../components/Modal/Modal";
 import OrderDetails from "../../components/OrderDetails/OrderDetails";
+import { useDispatch } from "../..";
 
 function MainPage() {
   const [visibleModal, setVisibleModal] = useState<boolean>(false);

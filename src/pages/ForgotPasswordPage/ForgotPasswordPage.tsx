@@ -15,7 +15,6 @@ function ForgotPasswordPage() {
   const sendEmail = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     localStorage.setItem("ForgotPasswordId", "1");
-    console.log(emailVal);
     const response = await forgotEmail(emailVal);
 
     if (response) {

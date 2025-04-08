@@ -5,8 +5,10 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ChangeEvent, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { saveChange } from "../../utils/api";
+import { useDispatch } from "../..";
+import { useTypesSelector } from "../../services/reducers";
+import { IUserr } from "../../utils/types";
 
 function Profile() {
   const dispatch = useDispatch();
@@ -17,12 +19,14 @@ function Profile() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  // @ts-ignore
-  const nameReg = useSelector((state) => state.loginEmailReducer.user.name);
-  // @ts-ignore
-  const emailReg = useSelector((state) => state.loginEmailReducer.user.email);
-  // @ts-ignore
-  const passReg = useSelector((state) => state.loginEmailReducer.password);
+  const nameReg = useTypesSelector(
+    (state) => (state.loginEmailReducer.user as IUserr).name
+  );
+  const emailReg = useTypesSelector(
+    (state) => (state.loginEmailReducer.user as IUserr).email
+  );
+
+  const passReg = useTypesSelector((state) => state.loginEmailReducer.password);
 
   useEffect(() => {
     setName(nameReg);
@@ -52,7 +56,6 @@ function Profile() {
   };
 
   const savePerson = () => {
-    // @ts-ignore
     dispatch(saveChange(name, email, password));
     setVisibleButton(false);
   };

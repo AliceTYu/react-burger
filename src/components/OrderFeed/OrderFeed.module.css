@@ -1,0 +1,43 @@
+.block{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.blockScroll{
+    height: calc(100vh - 210px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 45%;
+}
+
+.blockInfo{
+    display: grid;
+    width: calc(55% - 60px);
+    grid-template-areas: "br bw" 
+    "ba ba" 
+    "bt bt";
+    column-gap: 36px;
+    row-gap: 60px;
+}
+
+.blockReady{
+    grid-area: br;
+}
+
+.blockWork{
+    grid-area: bw;
+}
+
+.blockAll{
+    grid-area: ba;
+}
+
+.blockToday{
+    grid-area: bt;
+}
+
+.blockDone{
+    display: flex;
+    flex-direction: row;
+}

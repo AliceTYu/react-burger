@@ -2,7 +2,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./BurgerIngredients.module.css";
 import { MutableRefObject, useEffect, useRef, useState } from "react";
 import ListBlock from "../ListBlock/ListBlock";
-import { useSelector } from "react-redux";
+import { useTypesSelector } from "../../services/reducers";
 
 interface propTypes {
   onClick?: () => void;
@@ -10,8 +10,9 @@ interface propTypes {
 
 function BurgerIngredients({ onClick }: propTypes): JSX.Element {
   const [current, setCurrent] = useState<"bun" | "sauce" | "main">("bun");
-  // @ts-ignore
-  const errorSet = useSelector((state) => state.allIngredientsReducer.errorSet);
+  const errorSet = useTypesSelector(
+    (state) => state.allIngredientsReducer.errorSet
+  );
 
   const bunRef = useRef<HTMLDivElement>(null);
   const sauceRef = useRef<HTMLDivElement>(null);
