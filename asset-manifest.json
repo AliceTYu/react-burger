@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/react-burger/static/css/main.abd13f03.css",
-    "main.js": "/react-burger/static/js/main.c8149074.js",
+    "main.js": "/react-burger/static/js/main.ba4ede67.js",
     "static/js/453.8915ba24.chunk.js": "/react-burger/static/js/453.8915ba24.chunk.js",
     "static/media/JetBrainsMono-Bold.woff": "/react-burger/static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
     "static/media/JetBrainsMono-Regular.woff": "/react-burger/static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
@@ -12,11 +12,11 @@
     "static/media/done.svg": "/react-burger/static/media/done.2022ce2b88cc7b71fc8b9023c521656c.svg",
     "index.html": "/react-burger/index.html",
     "main.abd13f03.css.map": "/react-burger/static/css/main.abd13f03.css.map",
-    "main.c8149074.js.map": "/react-burger/static/js/main.c8149074.js.map",
+    "main.ba4ede67.js.map": "/react-burger/static/js/main.ba4ede67.js.map",
     "453.8915ba24.chunk.js.map": "/react-burger/static/js/453.8915ba24.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.abd13f03.css",
-    "static/js/main.c8149074.js"
+    "static/js/main.ba4ede67.js"
   ]
 }
