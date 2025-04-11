@@ -5,14 +5,12 @@ import {
   DELL_ALL_INGREDIENTS,
   UPDATE_SORT,
 } from "../actions/currentIngredients";
-import { currentIngredients } from "../reducers/currentIngredients";
+import {
+  currentIngredients,
+  initialState,
+} from "../reducers/currentIngredients";
 
 describe("currentIngredients reducer", () => {
-  const initialState = {
-    bun: null,
-    ingredients: [],
-  };
-
   const mockBun = {
     _id: "bun-1",
     name: "Краторная булка",

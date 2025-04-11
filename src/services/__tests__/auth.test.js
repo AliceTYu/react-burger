@@ -5,17 +5,9 @@ import {
   LOGIN_GET_USER,
   LOGIN_EMAIL,
 } from "../actions/auth";
-import { loginEmailReducer } from "../reducers/auth";
+import { initialState, loginEmailReducer } from "../reducers/auth";
 
 describe("loginEmailReducer", () => {
-  const initialState = {
-    user: null,
-    email: "",
-    password: "",
-    error: "",
-    success: false,
-  };
-
   const mockUser = {
     email: "test@example.com",
     name: "Test User",

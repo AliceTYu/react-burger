@@ -4,15 +4,9 @@ import {
   ORDER_IS_LOADING,
   ORDER_REQUEST,
 } from "../actions/order";
-import { orderReducer } from "../reducers/order";
+import { initialState, orderReducer } from "../reducers/order";
 
 describe("orderReducer", () => {
-  const initialState = {
-    order: null,
-    error: true,
-    isLoading: false,
-  };
-
   const mockOrder = {
     name: "Space флюоресцентный бургер",
     order: {

@@ -1,13 +1,7 @@
 import { ADD_FEED, ADD_PRICE } from "../actions/currentFeed";
-import { currentFeedReducer } from "../reducers/currentFeed";
+import { currentFeedReducer, initialState } from "../reducers/currentFeed";
 
 describe("currentFeedReducer", () => {
-  const initialState = {
-    name: "",
-    price: null,
-    feed: [],
-  };
-
   const mockFeedItem = {
     _id: "1",
     name: "Test Ingredient",

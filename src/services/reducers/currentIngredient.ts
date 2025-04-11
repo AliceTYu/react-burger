@@ -9,7 +9,7 @@ type initialStateTypes = {
   currentIngredient: IIngredientType | {}; 
 };
 
-const initialState: initialStateTypes = {
+export const initialState: initialStateTypes = {
   currentIngredient: {},
 };
 

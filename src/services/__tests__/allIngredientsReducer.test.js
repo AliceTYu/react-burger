@@ -1,13 +1,10 @@
 import { INGREDIENTS_ERROR, SET_INGREDIENTS } from "../actions/allIngredients";
-import { allIngredientsReducer } from "../reducers/allIngredients";
+import {
+  allIngredientsReducer,
+  initialState,
+} from "../reducers/allIngredients";
 
 describe("allIngredientsReducer", () => {
-  const initialState = {
-    allIngredients: [],
-    errorSet: false,
-    isLoading: false,
-  };
-
   it("должен возвращать начальное состояние", () => {
     expect(allIngredientsReducer(undefined, {})).toEqual(initialState);
   });

@@ -5,17 +5,12 @@ import {
   REGISTRATION_PASSWORD,
   REGISTRATION_SECCESS,
 } from "../actions/regisrtation";
-import { registrationEmailReducer } from "../reducers/regisrtation";
+import {
+  initialState,
+  registrationEmailReducer,
+} from "../reducers/regisrtation";
 
 describe("registrationEmailReducer", () => {
-  const initialState = {
-    email: "",
-    password: "",
-    name: "",
-    error: "",
-    success: false,
-  };
-
   it("should return initial state", () => {
     expect(registrationEmailReducer(undefined, {})).toEqual(initialState);
   });

@@ -17,7 +17,7 @@ export const useDispatch = dispatchHook.withTypes<AppDispatch>();
 // export const useSelector = selectorHook.withTypes<AppSelector>();
 
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename="/react-burger">
     <React.StrictMode>
       <Provider store={store}>
         <App />

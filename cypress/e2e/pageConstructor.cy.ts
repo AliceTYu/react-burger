@@ -14,36 +14,28 @@ describe('Страница "Конструктор"', () => {
     cy.intercept('POST', `${URL_BASE}/auth/login`, { fixture: 'user.json' }).as('user');
     cy.intercept('POST', `${URL_BASE}/orders`, { fixture: 'orders.json' }).as('orders');
 
-    cy.visit('http://localhost:3000');
+    cy.visit('dashboard');
   });
 
   it('1. Успешный заказ и перемещение ингредиента', () => {
-    cy.get(`[data-testid="ingredient-${INGREDIENTS.BUN}"]`)
-    .trigger('dragstart')
-    .trigger('dragleave');
-    cy.get('[data-testid="constructor-bun-top"]')
-    .trigger('dragover')
-    .trigger('drop')
-    .trigger('dragend')
-    .should('contain', 'Флюоресцентная булка R2-D3');
- 
-    cy.get(`[data-testid="ingredient-${INGREDIENTS.SAUCE}"]`)
-    .trigger('dragstart')
-    .trigger('dragleave');
-    cy.get('[data-testid="constructor-main"]')
-    .trigger('dragover')
-    .trigger('drop')
-    .trigger('dragend')
-    .should('contain', 'Соус с шипами Антарианского плоскоходца');
+    const addIngredient = (id: string, target: string, name: string) => {
+      cy.get(`[data-testid="ingredient-${id}"]`).as('ingredient');
+      cy.get(`[data-testid="${target}"]`).as('target');
 
-    cy.get(`[data-testid="ingredient-${INGREDIENTS.MAIN}"]`)
-    .trigger('dragstart')
-    .trigger('dragleave');
-    cy.get('[data-testid="constructor-main"]')
-    .trigger('dragover')
-    .trigger('drop')
-    .trigger('dragend')
-    .should('contain', 'Биокотлета из марсианской Магнолии');
+      cy.get('@ingredient')
+        .trigger('dragstart')
+        .trigger('dragleave');
+      
+      cy.get('@target')
+        .trigger('dragover')
+        .trigger('drop')
+        .trigger('dragend')
+        .should('contain', name);
+    };
+
+    addIngredient(INGREDIENTS.BUN, "constructor-bun-top", "Флюоресцентная булка R2-D3")
+    addIngredient(INGREDIENTS.SAUCE, "constructor-main", "Соус с шипами Антарианского плоскоходца")
+    addIngredient(INGREDIENTS.MAIN, "constructor-main", "Биокотлета из марсианской Магнолии")
 
     cy.get('[data-testid="order-button"]').click();
 
@@ -53,15 +45,19 @@ describe('Страница "Конструктор"', () => {
     cy.get('[data-testid="email_inp"]').type(`${email}`);
     cy.get('[data-testid="password_inp"]').type(`${password}{enter}`);
 
-    cy.get(`[data-testid="constructor-ingredient-draghandle-${INGREDIENTS.MAIN}"]`).trigger('dragstart');
-    cy.get(`[data-testid="constructor-ingredient-draghandle-${INGREDIENTS.SAUCE}"]`).trigger('drop');
+    cy.get(`[data-testid="constructor-ingredient-draghandle-${INGREDIENTS.MAIN}"]`).as('mainIngredient');
+    cy.get(`[data-testid="constructor-ingredient-draghandle-${INGREDIENTS.SAUCE}"]`).as('sauceIngredient');
+
+    cy.get(`@mainIngredient`).trigger('dragstart');
+    cy.get(`@sauceIngredient`).trigger('drop');
 
     const expectedOrder = [
       `constructor-ingredient-draghandle-${INGREDIENTS.MAIN}`,
       `constructor-ingredient-draghandle-${INGREDIENTS.SAUCE}`,
     ];
 
-    cy.get('[data-testid^="constructor-ingredient-draghandle-"]').then($items => {
+    cy.get('[data-testid^="constructor-ingredient-draghandle-"]').as('constructorItems');
+    cy.get('@constructorItems').then($items => {
       const actualOrder = $items.map((_, el) => el.getAttribute('data-testid')).get();
       expect(actualOrder).to.deep.equal(expectedOrder);
     });
@@ -81,17 +77,20 @@ describe('Страница "Конструктор"', () => {
   });
 
   it('2. Модальное окно', () => {
-    cy.get(`[data-testid="ingredient-${INGREDIENTS.BUN}"]`)
-    .click()
-    
-    cy.get('[data-testid="ingredient-modal"]')
+
+    cy.openIngredientModal(INGREDIENTS.BUN);
+
+    cy.get('[data-testid="ingredient-modal"]').as('ingredientModal');
+    cy.get('[data-testid="ingredient-modal-name"]').as('modalName');
+
+    cy.get('@ingredientModal', { timeout: 10000 })
       .should('be.visible');
     
-    cy.get('[data-testid="ingredient-modal-name"]')
+    cy.get('@modalName')
       .should('contain', 'Флюоресцентная булка R2-D3');
 
-    cy.get('[data-testid="modal-close"]').click();
+    cy.closeIngredientModal()
 
-    cy.get('[data-testid="ingredient-modal"]').should('not.exist');
+    cy.get('@ingredientModal').should('not.exist');
   })
 });

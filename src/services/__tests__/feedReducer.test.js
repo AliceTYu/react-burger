@@ -6,17 +6,9 @@ import {
   onFeedWsMessage,
   onFeedWsOpen,
 } from "../actions/feedActions";
-import { feedReducer } from "../reducers/feedReducer";
+import { feedReducer, initialState } from "../reducers/feedReducer";
 
 describe("feedReducer", () => {
-  const initialState = {
-    wsConnected: false,
-    orders: [],
-    total: 0,
-    totalToday: 0,
-    error: null,
-  };
-
   const mockOrders = [
     {
       _id: "1",

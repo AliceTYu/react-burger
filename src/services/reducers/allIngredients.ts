@@ -7,7 +7,7 @@ type initialStateTypes = {
   isLoading: boolean;
 };
 
-const initialState: initialStateTypes = {
+export const initialState: initialStateTypes = {
   allIngredients: [],
   errorSet: false,
   isLoading: false,

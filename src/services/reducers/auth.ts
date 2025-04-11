@@ -16,7 +16,7 @@ interface initialStateType {
   user: IUserr | null;
 }
 
-const initialState: initialStateType = {
+export const initialState: initialStateType = {
   user: null,
   email: "",
   password: "",

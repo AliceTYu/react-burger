@@ -2,13 +2,12 @@ import {
   DEL_CURRENT_INGREDIENT,
   SET_CURRENT_INGREDIENT,
 } from "../actions/currentIngredient";
-import { currentIngredientReducer } from "../reducers/currentIngredient";
+import {
+  currentIngredientReducer,
+  initialState,
+} from "../reducers/currentIngredient";
 
 describe("currentIngredientReducer", () => {
-  const initialState = {
-    currentIngredient: {},
-  };
-
   const mockIngredient = {
     _id: "1",
     name: "Краторная булка N-200i",
