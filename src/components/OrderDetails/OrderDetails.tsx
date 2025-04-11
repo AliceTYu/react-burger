@@ -11,7 +11,10 @@ function OrderDetails(): JSX.Element {
     <div className={`${styles.order} pt-15 pb-15 pr-25 pl-25`}>
       {!error && !loading && (
         <>
-          <div className="text text_type_digits-large pb-8">
+          <div
+            data-testid="order-number"
+            className="text text_type_digits-large pb-8"
+          >
             {order && order.order.number}
           </div>
           <div className="text text_type_main-medium pb-8">

@@ -199,7 +199,7 @@ export const getUserData = () => async (dispatch: AppDispatch) => {
       headers: {
         'Content-Type': 'application/json',
       },
-    }, dispatch);
+    });
     
     dispatch(loginSuccess(true));
     dispatch(loginGetUser(data.user));

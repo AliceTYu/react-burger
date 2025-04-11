@@ -71,6 +71,7 @@ function LiConstructor({ currentEl, index }: propTypes): JSX.Element {
       ref={currentEl.type === "bun" ? null : ref}
       key={currentEl.id}
       className={`${styles.item} pb-4`}
+      data-testid={`constructor-ingredient-draghandle-${currentEl._id}`}
     >
       <DragIcon type="primary" />
       <ConstructorElement

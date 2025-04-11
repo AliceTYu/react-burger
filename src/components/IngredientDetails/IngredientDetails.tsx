@@ -26,7 +26,10 @@ function IngredientDetails(): JSX.Element {
         src={ingredient.image_large}
         alt={ingredient.name}
       />
-      <h2 className={`${styles.text} text text_type_main-medium pb-8`}>
+      <h2
+        data-testid="ingredient-modal-name"
+        className={`${styles.text} text text_type_main-medium pb-8`}
+      >
         {ingredient.name}
       </h2>
       <ul className={styles.list}>
