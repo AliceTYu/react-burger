@@ -15,7 +15,7 @@ interface RegistrationStateType {
   success: boolean;
 }
 
-const initialState: RegistrationStateType = {
+export const initialState: RegistrationStateType = {
   email: "",
   password: "",
   name: "",

@@ -10,6 +10,7 @@ function PriceBlock({ price, fsize }: propTypes): JSX.Element {
   return (
     <div className={`${styles.priceBlock} pt-1 pb-1`}>
       <div
+        data-testid="price-number"
         className={`text ${
           fsize === 1 ? "text_type_digits-default" : "text_type_digits-medium"
         } `}

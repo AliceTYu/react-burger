@@ -19,7 +19,11 @@ function ListBlock({ type, onClick }: propTypes): JSX.Element {
         allIngredients.map((el: IIngredientType) => {
           return (
             el.type === type && (
-              <li key={el._id} className={`${styles.item} pl-4 pr-4 pb-6`}>
+              <li
+                data-testid={`ingredient-${el._id}`}
+                key={el._id}
+                className={`${styles.item} pl-4 pr-4 pb-6`}
+              >
                 <CardBlock type={type} onClick={onClick} elDataBase={el} />
               </li>
             )

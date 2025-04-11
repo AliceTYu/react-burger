@@ -8,7 +8,11 @@ interface propTypes {
 
 function ModalOverlay({ children, onClick }: propTypes): JSX.Element {
   return (
-    <div className={styles.modalOver} onClick={onClick}>
+    <div
+      data-testid="ingredient-modal"
+      className={styles.modalOver}
+      onClick={onClick}
+    >
       {children}
     </div>
   );

@@ -44,15 +44,6 @@ export const rootReducer = combineReducers({
 export type RootState = ReturnType<typeof rootReducer>
 export const useTypesSelector: TypedUseSelectorHook<RootState> = useSelector
 
-// const feedMiddleware = socketMiddleware({
-//   wsConnect: connectFeed,
-//   wsDisconnect: disconnectFeed,
-//   onOpen: onFeedWsOpen,
-//   onClose: onFeedWsClose,
-//   onError: onFeedWsError,
-//   onMessage: onFeedWsMessage,
-// });
-
 const feedMiddleware = socketMiddlewareUser({
   wsConnectUser: connectFeed,
   wsDisconnectUser: disconnectFeed,
@@ -75,6 +66,4 @@ const feedMiddlewareUser = socketMiddlewareUser({
 export const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk, feedMiddleware, feedMiddlewareUser))
-  // composeWithDevTools(applyMiddleware(thunk, feedMiddleware, feedMiddlewareUser))
-  // composeWithDevTools(applyMiddleware(thunk as ThunkMiddleware, feedMiddleware))
 );

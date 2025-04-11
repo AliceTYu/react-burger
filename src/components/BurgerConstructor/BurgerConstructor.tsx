@@ -87,11 +87,15 @@ function BurgerConstructor({ onClick }: propTypes): JSX.Element {
   return (
     <div className={styles.burgerConstructorContainer}>
       <section className={styles.burgerConstructor}>
-        <div ref={dropTarget2}>
+        <div ref={dropTarget2} data-testid="constructor-bun-top">
           <BurgerTopButtom type="top" type_rus="верх" />
         </div>
 
-        <div className={styles.burgerConstructorList} ref={dropTarget}>
+        <div
+          className={styles.burgerConstructorList}
+          ref={dropTarget}
+          data-testid="constructor-main"
+        >
           <ListConstructor />
         </div>
 
@@ -106,6 +110,7 @@ function BurgerConstructor({ onClick }: propTypes): JSX.Element {
         </div>
         <Button
           onClick={onClickOrder}
+          data-testid="order-button"
           htmlType="button"
           type="primary"
           size="large"

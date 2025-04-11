@@ -13,7 +13,7 @@ type initialStateTypes = {
   ingredients: IIngredientType[]; 
 };
 
-const initialState: initialStateTypes = {
+export const initialState: initialStateTypes = {
   bun: null,
   ingredients: [],
 };

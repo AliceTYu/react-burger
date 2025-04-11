@@ -7,7 +7,7 @@ type initialStateTypes = {
     feed: IOrderFeedIng[]; 
 };
 
-const initialState: initialStateTypes = {
+export const initialState: initialStateTypes = {
   name: '',
   price: null,
   feed: [],

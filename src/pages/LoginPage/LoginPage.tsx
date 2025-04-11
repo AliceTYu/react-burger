@@ -51,6 +51,7 @@ function LoginPage() {
           extraClass="pb-6"
           onChange={onChangeEmail}
           value={emailLog}
+          data-testid="email_inp"
         />
       }
       {
@@ -62,6 +63,7 @@ function LoginPage() {
           extraClass="pb-6"
           onChange={onChangePassword}
           value={passLog}
+          data-testid="password_inp"
         />
       }
       <Button htmlType="submit" type="primary" size="medium" extraClass="ml-2">

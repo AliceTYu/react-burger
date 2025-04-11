@@ -16,6 +16,7 @@ function ModalBackDrop({ onClose }: propTypes): JSX.Element {
       type="secondary"
       size="small"
       extraClass="pt-1 pl-1 pr-1 pb-1"
+      data-testid="modal-close"
     >
       <CloseIcon type="primary" />
     </Button>

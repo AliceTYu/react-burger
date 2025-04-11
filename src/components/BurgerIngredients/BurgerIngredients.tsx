@@ -108,11 +108,21 @@ function BurgerIngredients({ onClick }: propTypes): JSX.Element {
                 Булки
               </h2>
               <ListBlock onClick={onClick} type="bun" />
-              <h2 ref={sauceRef} className={classNameText}>
+
+              <h2
+                data-testid="sauce-header"
+                ref={sauceRef}
+                className={classNameText}
+              >
                 Соусы
               </h2>
               <ListBlock onClick={onClick} type="sauce" />
-              <h2 ref={mainRef} className={classNameText}>
+
+              <h2
+                data-testid="main-header"
+                ref={mainRef}
+                className={classNameText}
+              >
                 Начинки
               </h2>
               <ListBlock onClick={onClick} type="main" />
