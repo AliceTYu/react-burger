@@ -13,7 +13,7 @@ interface OrderStateType {
   isLoading: boolean;
 }
 
-const initialState: OrderStateType = {
+export const initialState: OrderStateType = {
   order: null,
   error: true,
   isLoading: false,

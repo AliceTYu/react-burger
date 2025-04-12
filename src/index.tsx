@@ -14,7 +14,6 @@ const root = ReactDOM.createRoot(
 export type AppDispatch = typeof store.dispatch;
 
 export const useDispatch = dispatchHook.withTypes<AppDispatch>();
-// export const useSelector = selectorHook.withTypes<AppSelector>();
 
 root.render(
   <BrowserRouter>
